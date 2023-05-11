@@ -12,4 +12,11 @@ public class Led {
     private boolean state;
     private LocalTime dateOn;
     private LocalTime dateOff;
+
+    public Led (int id) {
+        this.id = id;
+        this.state = false;
+        this.dateOn = null;
+        this.dateOff =null;
+    }
 }
