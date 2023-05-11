@@ -87,27 +87,20 @@ public class ListDE {
    no hay datos para ejecutar el metodo
      */
 
-   public void getTurnOnLedBy1SecondAndTurnOnExtremes() throws InterruptedException {
+    public void getTurnOnLedBy1SecondAndTurnOnExtremes() throws InterruptedException {
         int middle = size / 2;
         NodeDE temp = head;
-        NodeDE temp2 = null;
+        NodeDE temp2;
         if (head != null) {
             // Si es par, avanzar hasta la mitad
             if (middle % 2 == 0) {
-                for (int i = 1; i < middle; i++) {
+                int i=1;
+                while ( i < middle) {
                     temp = temp.getNext();
+                    i++;
                 }
-                temp2 = temp.getNext();
-            }
-            // Si es impar, avanzar hasta la mitad
-            else {
-                for (int i = 1; i < middle; i++) {
-                    temp = temp.getNext();
-                }
-                temp2 = temp.getNext().getNext();
-            }
+                temp2 = temp.getNext();// avanzo uno
 
-            while (temp2 != null && temp2.getNext() != null) {
                 temp.getData().setState(true);
                 temp.getData().setDateOn(LocalTime.now());
                 temp2.getData().setState(true);
@@ -117,22 +110,68 @@ public class ListDE {
                 temp.getData().setDateOff(LocalTime.now());
                 temp2.getData().setState(false);
                 temp2.getData().setDateOff(LocalTime.now());
-                temp = temp.getPrevious(); // Avanzar hacia el LED anterior
-                temp2 = temp2.getNext();
-            }
 
-            // Encender el último led
-            if (temp2 != null) {
-                temp2.getData().setState(true);
-                temp2.getData().setDateOn(LocalTime.now());
-                temp2.getData().setDateOff(null);
-            }
+                NodeDE prev = temp.getPrevious();
+                NodeDE next = temp2.getNext();
+                while (prev.getPrevious() != null && next.getNext() != null) {
+                    prev.getData().setState(true);
+                    prev.getData().setDateOn(LocalTime.now());
+                    next.getData().setState(true);
+                    next.getData().setDateOn(LocalTime.now());
+                    TimeUnit.SECONDS.sleep(1);
+                    prev.getData().setState(false);
+                    prev.getData().setDateOff(LocalTime.now());
+                    next.getData().setState(false);
+                    next.getData().setDateOff(LocalTime.now());
+                    prev = prev.getPrevious(); // Avanzar hacia el LED anterior
+                    next = next.getNext();
+                }
+                prev.getData().setState(true);
+                next.getData().setState(true);
+                prev.getData().setDateOn(LocalTime.now());
+                next.getData().setDateOn(LocalTime.now());
 
-            // Encender el primer led
-            if (temp != null) {
+            }
+            // Si es impar, avanzar hasta la mitad
+            else {
+                int i=1;
+                while (i < middle) {
+                    temp = temp.getNext();
+                    i++;
+                }
+                temp2 = temp.getNext().getNext();// avanzo dos
+
                 temp.getData().setState(true);
                 temp.getData().setDateOn(LocalTime.now());
-                temp.getData().setDateOff(null);
+                temp2.getData().setState(true);
+                temp2.getData().setDateOn(LocalTime.now());
+                TimeUnit.SECONDS.sleep(1);
+                temp.getData().setState(false);
+                temp.getData().setDateOff(LocalTime.now());
+                temp2.getData().setState(false);
+                temp2.getData().setDateOff(LocalTime.now());
+
+                NodeDE prev = temp.getPrevious();
+                NodeDE next = temp2.getNext();
+                while (prev.getPrevious() != null && next.getNext() != null) {
+                    prev.getData().setState(true);
+                    prev.getData().setDateOn(LocalTime.now());
+                    next.getData().setState(true);
+                    next.getData().setDateOn(LocalTime.now());
+                    TimeUnit.SECONDS.sleep(1);
+                    prev.getData().setState(false);
+                    prev.getData().setDateOff(LocalTime.now());
+                    next.getData().setState(false);
+                    next.getData().setDateOff(LocalTime.now());
+                    prev = prev.getPrevious(); // Avanzar hacia el LED anterior
+                    next = next.getNext();
+                }
+                prev.getData().setState(true);
+                next.getData().setState(true);
+                prev.getData().setDateOn(LocalTime.now());
+                next.getData().setDateOn(LocalTime.now());
+                prev.getData().setDateOff(null);
+                prev.getData().setDateOff(null);
             }
         }
     }
