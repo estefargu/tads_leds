@@ -65,8 +65,6 @@ public class ListDE {
     }
 
     /*
-    cuando es par quedan 2 y cuando es impar queda 1
-    impar le sumo 2 y par sumo 1
     Prender extremos
     si hay datos
     si
@@ -89,22 +87,7 @@ public class ListDE {
    no hay datos para ejecutar el metodo
      */
 
-    public void getTurnOn(NodeDE nodeDE) {
-        if (nodeDE != null) {
-            NodeDE temp = nodeDE;
-            while (temp != null) {
-                temp.getData().setState(true); // Encender el LED
-                try {
-                    Thread.sleep(1000); // Dormir durante 1 segundo
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                temp.getData().setState(false); // Apagar el LED
-                temp = temp.getNext(); // Avanzar al siguiente nodo
-            }
-        }
-    }
-    public void getTurnOnLedBy1SecondAndTurnOnExtremes() throws InterruptedException {
+   public void getTurnOnLedBy1SecondAndTurnOnExtremes() throws InterruptedException {
         int middle = size / 2;
         NodeDE temp = head;
         NodeDE temp2 = null;
