@@ -72,13 +72,16 @@ public class ListDE {
      Si es par, es decir su residuo siempre va a ser 0
         si esto se cumple se crearian 2 ayudantes uno que se ubique en la cebeza y otro tambien
          darles la instruccion que avace un tempral hasta la mitad y el otro temporal se vaya hasta la mitad mas 1
-         luego darles la instruccion al mismo tiempo que el primer ayudante retroceda y el segudno ayudante adelante
+         prender y apagar estos por un segundo
+         luego crear otros dos ayudantes que seria el anterior y el siguiente para que avance hacia los extremos
+         luego darles la instruccion al mismo tiempo que el primer ayudante retroceda y el segundo ayudante adelante
          que al pasar el primer led se prenda por 1 segundo y se apague y actualizar al mismo tiempo la hora y se pase al otro led y haglo mismo
          luego al llegar los dos ayudantes al final dejar prendidos los dos extremos
          y me salgo
    Si es impar
-       si esto se cumple se crearian 2 ayudantes uno que se ubique en la cebeza y otro tambien en cabeza
-       darles la instruccion que avace un tempral hasta la mitad y el otro temporal se vaya hasta la mitad mas 2
+       si esto se cumple se crea 1 ayudante que se ubique en la cebeza
+       darle la instruccion que avace hasta la mitad mas 1
+       luego crear otros dos ayudantes que seria el anterior y el siguiente para que avance hacia los extremos
        luego darles la instruccion al mismo tiempo que el primer ayudante retroceda y el segudno ayudante adelante
          que al pasar el primer led se prenda por 1 segundo y se apague y actualizar al mismo tiempo la hora y se pase al otro led y haglo mismo
          luego al llegar los dos ayudantes al final dejar prendidos los dos extremos
@@ -92,23 +95,26 @@ public class ListDE {
         NodeDE temp = head;
         NodeDE temp2;
         if (head != null) {
+            //Si solo hay un led en la lista, le doy la instruccion de que prenda
+            if(size ==1){
+                temp.getData().setState(true);
+                temp.getData().setDateOn(LocalTime.now());
+            }
             // Si es par, avanzar hasta la mitad
-            if (middle % 2 == 0) {
-                int i=1;
-                while ( i < middle) {
+            if (size % 2 == 0) {
+                for (int i=1; i < middle; i++) {
                     temp = temp.getNext();
-                    i++;
                 }
                 temp2 = temp.getNext();// avanzo uno
 
                 temp.getData().setState(true);
-                temp.getData().setDateOn(LocalTime.now());
                 temp2.getData().setState(true);
+                temp.getData().setDateOn(LocalTime.now());
                 temp2.getData().setDateOn(LocalTime.now());
                 TimeUnit.SECONDS.sleep(1);
                 temp.getData().setState(false);
-                temp.getData().setDateOff(LocalTime.now());
                 temp2.getData().setState(false);
+                temp.getData().setDateOff(LocalTime.now());
                 temp2.getData().setDateOff(LocalTime.now());
 
                 NodeDE prev = temp.getPrevious();
@@ -134,25 +140,19 @@ public class ListDE {
             }
             // Si es impar, avanzar hasta la mitad
             else {
-                int i=1;
-                while (i < middle) {
+                for (int i=3; i < middle; i++) {
                     temp = temp.getNext();
-                    i++;
                 }
-                temp2 = temp.getNext().getNext();// avanzo dos
+                temp = temp.getNext(); // avanza uno, es decir queda exactamente en la mitad
 
                 temp.getData().setState(true);
                 temp.getData().setDateOn(LocalTime.now());
-                temp2.getData().setState(true);
-                temp2.getData().setDateOn(LocalTime.now());
                 TimeUnit.SECONDS.sleep(1);
                 temp.getData().setState(false);
                 temp.getData().setDateOff(LocalTime.now());
-                temp2.getData().setState(false);
-                temp2.getData().setDateOff(LocalTime.now());
 
                 NodeDE prev = temp.getPrevious();
-                NodeDE next = temp2.getNext();
+                NodeDE next = temp.getNext();
                 while (prev.getPrevious() != null && next.getNext() != null) {
                     prev.getData().setState(true);
                     prev.getData().setDateOn(LocalTime.now());
